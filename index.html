@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Save TextArea</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            transition: background-color 0.5s;
+        }
+
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 90%;
+            padding: 30px;
+            margin: 10% auto;
+            border: 1px solid black;
+            max-width: 700px;
+            background-color: beige;
+        }
+
+        #textStorage {
+            margin-top: 20px;
+            max-width: 90%;
+            font-size: 24px;
+        }
+
+        .dark-mode #textStorage {
+            background-color: #6c6c6c;
+            color: #fff;
+        }
+        .dark-mode h2{
+            color: #fff;
+        }
+        .dark-mode body{
+            background-color: #22222262;
+        }
+        .dark-mode .container {
+            background-color: #222;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="container">
+        <h2>Auto Save TextArea</h2>
+        <textarea name="storingMessages" id="textStorage" cols="80" rows="10"></textarea>
+    </div>
+    <script>
+        let message = document.getElementById('textStorage');
+        const body = document.body;
+
+        function saveToLocalStorage() {
+            localStorage.setItem('savedMsg', message.value);
+        }
+
+        function toggleDarkMode() {
+            body.classList.toggle('dark-mode');
+            saveToLocalStorage();
+        }
+
+        if (localStorage.getItem('savedMsg')) {
+            message.value = localStorage.getItem('savedMsg');
+        }
+
+        message.addEventListener('input', saveToLocalStorage);
+
+        // Toggle dark mode on button click
+        const darkModeToggleBtn = document.createElement('button');
+        darkModeToggleBtn.textContent = 'Toggle Dark Mode';
+        darkModeToggleBtn.addEventListener('click', toggleDarkMode);
+        document.body.appendChild(darkModeToggleBtn);
+    </script>
+</body>
+</html>
